@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>ZIZOU BOILER ROOM</title>
+        <link rel="icon" type="image/x-icon" href="/assets/ico.ico">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+        <style>
+            /* Réinitialisation des styles de base */
+            body, html {
+                margin: 0;
+                padding: 0;
+                height: 100%;
+                overflow-x: hidden;
+                font-family: 'Roboto', Arial, sans-serif; /* Police Roboto */
+            }
+    
+            /* Vidéo de fond */
+            #background-video {
+                filter: brightness(75%);
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                z-index: -1;
+            }
+    
+            
+            :root {
+    --bg: #1a1e24;
+    --color: #fff;
+    --hover-bg: #8333de;
+    --font: 'Roboto', Arial, sans-serif;
+}
+
+.wrapper {
+    padding: 1rem 0;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    filter: url('#goo');
+}
+
+.button {
+    display: inline-block;
+    text-align: center;
+    background: var(--color);
+    color: var(--bg);
+    font-weight: bold;
+    padding: 1.2em 1.5em;
+    line-height: 1;
+    border-radius: 2em;
+    position: relative;
+    min-width: 10em;
+    text-decoration: none;
+    font-family: var(--font);
+    font-size: 1rem;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+.button:before,
+.button:after {
+    content: "";
+    display: inline-block;
+    position: absolute;
+    background: var(--color);
+    width: 3.5em;
+    height: 3.5em;
+    border-radius: 50%;
+    transition: transform 0.3s ease;
+    transform: scale(0);
+    z-index: -1;
+}
+
+.button:before {
+    top: -25%;
+    left: 10%;
+}
+
+.button:after {
+    bottom: -25%;
+    right: 10%;
+}
+
+.button:hover:before,
+.button:hover:after {
+    transform: scale(1.2);
+}
+
+.button:hover {
+    background: var(--hover-bg);
+    color: var(--color);
+}
+            /* Conteneur principal */
+            .container {
+                position: relative;
+                z-index: 1;
+                color: white;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: flex-start;
+                min-height: 100vh;
+                padding: 20px;
+                box-sizing: border-box;
+            }
+    
+            /* Div pour l'image */
+            .image-section {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-bottom: 20px;
+            }
+    
+            .image-section img {
+                max-width: 300px; /* Taille de l'image */
+                height: auto;
+            }
+    
+            /* Bandeau pour le compte à rebours */
+            .countdown-banner {
+                position: relative;
+                left: 0;
+                width: 100vw; /* Assure qu'il prend toute la largeur de l'écran */
+                background: rgba(0, 0, 0, 0.8); /* Fond légèrement transparent */
+                color: white;
+                text-align: center;
+                padding: 15px 0;
+                font-size: 1.5rem;
+                font-weight: bold;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+                margin-bottom: 20px;
+            }
+
+            .wrapper {
+            padding: 1.5rem 0;
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            filter: url('#goo');
+        }
+    
+            /* Section du bouton de préinscription */
+            .registration-section {
+                margin-bottom: 30px;
+                text-align: center;
+            }
+    
+            .registration-section button {
+                background: #db2121;
+                color: white;
+                border: none;
+                padding: 10px 20px;
+                border-radius: 5px;
+                font-size: 1.2rem;
+                cursor: pointer;
+                transition: background 0.3s ease;
+                text-transform: uppercase;
+            }
+    
+            .registration-section button:hover {
+                background: #d413d7;
+            }
+    
+            /* Div pour la section DJ */
+            .dj-section {
+                text-align: center;
+                color: white;
+                margin-top: 20px;
+            }
+    
+            .dj-section h2 {
+                margin-bottom: 20px;
+            }
+    
+            .dj-section .dj-container {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 20px;
+            }
+    
+            .dj-section .card {
+                position: relative;
+                background: rgba(0, 0, 0, 0.7);
+                border-radius: 10px;
+                overflow: hidden;
+                width: 150px;
+                text-align: center;
+                transition: transform 0.3s, box-shadow 0.3s;
+            }
+    
+            .dj-section .card img {
+                width: 100%;
+                height: 150px;
+                object-fit: cover;
+                border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+            }
+    
+            .dj-section .card p {
+                margin: 10px 0;
+                font-size: 1rem;
+                color: white;
+            }
+    
+            .dj-section .card .hours {
+                color: #8333de;
+                font-weight: bold;
+                margin-top: 5px;
+                font-size: 1rem;
+                text-transform: uppercase;
+                border-top: 1px solid rgba(255, 255, 255, 0.3);
+                padding-top: 5px;
+            }
+    
+            .dj-section .card:hover {
+                transform: translateY(-10px);
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+            }
+    
+            /* Section Information */
+
+            .info-section {
+                margin-top: 20px;
+                text-align: center;
+                padding: 20px;
+                background: rgba(0, 0, 0, 0.8);
+                
+                box-sizing: border-box;
+                max-width: 100%; /* Assure que la section ne dépasse pas la largeur de l'écran */
+                overflow-y: hidden; /* Cache le contenu qui dépasse */
+                word-wrap: break-word; /* Permet aux longs mots d'être coupés */
+                color: white;
+               
+                z-index: 1000;
+                
+                
+            }
+
+            /* Liste à l'intérieur de la section */
+            .info-section ul {
+                list-style: none; /* Supprime les puces de la liste */
+                padding: 0; /* Supprime le padding par défaut */
+                margin: 0; /* Supprime la marge par défaut */
+                max-width: 100%; /* Assure que la liste reste dans la largeur de la section */
+                
+                color: white;
+            
+            }
+
+            .info-section ul li {
+                margin: 10px 0;
+                font-size: 1.2rem;
+                text-align: left;
+                word-wrap: break-word; /* Gère les longues chaînes de texte */
+                color: white;
+
+            }       
+    
+            .info-section ul li span {
+                font-weight: bold;
+                color: #8333de;
+            }
+
+            #leetchi-section {
+            text-align: center;
+            margin-top: 20px;
+            color: white;
+        }
+
+            #leetchi-amount {
+                font-size: 1.5rem;
+                margin-bottom: 10px;
+            }
+
+            #leetchi-button {
+                background-color: #db2121;
+                color: white;
+                border: none;
+                padding: 10px 20px;
+                font-size: 1.2rem;
+                border-radius: 5px;
+                cursor: pointer;
+                transition: background 0.3s ease;
+            }
+
+            #leetchi-button:hover {
+                background-color: #d413d7;
+            }
+    
+            /* Responsivité */
+            @media (max-width: 768px) {
+                .image-section img {
+                    max-width: 100px;
+                }
+
+                .info-section {
+                    padding: 15px;
+                    font-size: 1rem;
+                }
+
+                .info-section ul li {
+                    font-size: 1rem;
+                }
+    
+                .dj-section .dj-container {
+                    flex-direction: column;
+                }
+    
+                .dj-section .card {
+                    width: 100px;
+                    margin-bottom: 20px;
+                }
+    
+                .dj-section .card img {
+                    height: 100px;
+                }
+            }
+        </style>
+    </head>
+<body>
+    <!-- Vidéo de fond -->
+    <video id="background-video" autoplay loop muted playsinline>
+        <source src="/assets/video.mp4" type="video/mp4" media="(min-width: 769px)">
+        <source src="/assets/video-mobile.mp4" type="video/mp4" media="(max-width: 768px)">
+        Votre navigateur ne supporte pas les vidéos HTML5.
+    </video>
+
+    
+
+    <!-- Contenu principal -->
+    <div class="container">
+        <!-- Div pour l'image -->
+        <div class="image-section">
+            <img src="/assets/zizou.png" alt="Image centrale">
+        </div>
+
+        <!-- Bandeau pour le compte à rebours -->
+        <div class="countdown-banner" id="countdown">
+            <span id="timer">Calcul en cours...</span>
+        </div>
+
+        <!-- Bouton de préinscription -->
+<div class="wrapper">
+    <a class="button" href="https://docs.google.com/forms/d/e/1FAIpQLSf6oILlreIvUdFkhyTJesm6sWxKjSz7yjK4sPmgOcHV3O6eIQ/viewform" target="_blank">
+        Préinscription
+    </a>
+</div>
+
+<div class="wrapper">
+    <a class="button" href="https://www.leetchi.com/fr/c/zizou-boiler-room-4849814" target="_blank">
+        Accéder à la cagnotte
+    </a>
+</div>
+
+        <svg style="visibility: hidden; position: absolute;" width="0" height="0" xmlns="http://www.w3.org/2000/svg" version="1.1">
+            <defs>
+                <filter id="goo"><feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />    
+                    <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9" result="goo" />
+                    <feComposite in="SourceGraphic" in2="goo" operator="atop"/>
+                </filter>
+            </defs>
+        </svg>
+
+        <!-- Div pour la section DJs -->
+        <div class="dj-section">
+            <h2>LA LINEUP</h2>
+            <div class="dj-container">
+                <div class="card">
+                    <img src="/assets/xixi.jpeg" alt="DJ 1">
+                    <p>XIXINE</p>
+                    <p class="hours">23h00 - 01h00</p>
+                </div>
+                <div class="card">
+                    <div style="display: flex; justify-content: center; align-items: center;">
+                    <img src="/assets/sapo.jpeg" alt="Sapo" style="width: 50%; height: 150px; object-fit: cover; border-right: 1px solid rgba(255, 255, 255, 0.3);">
+                    <img src="/assets/haed.jpeg" alt="Hælixxx" style="width: 50%; height: 150px; object-fit: cover;">
+                </div>
+                    <p>Sapo B2B Hælixxx</p>
+                    <p class="hours">01h00 - 05h00</p>
+                </div>
+                <a href="https://www.instagram.com/_momoset_/" target="_blank" style="text-decoration: none; color: inherit;">
+                    <div class="card">
+                        <img src="/assets/momo.jpg" alt="DJ 3">
+                        <p>MOMOSET</p>
+                        <p class="hours">05h00 - 08h00</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section Informations -->
+    <div class="info-section">
+        <h2>Informations Pratiques</h2>
+        <ul>
+            <li><span>📍 Lieu :</span> <a href="https://maps.app.goo.gl/K5DWECV1iX9ZMLudA" style="color:#ffffff;" target="_blank" rel="noopener noreferrer">6 Rue Aristide Finco, 64121 Serres-Castet </a></li>
+            <li><span>⏰ Horaires :</span> De 23h00 à 08h00.</li>
+            <li><span>🎟️ Entrée :</span> Pour ceux qui auront payé les 10€.</li>
+            <li><span>👕 Dress Code :</span> Venez comme vous êtes.</li>
+            <li><span>🍹 Bar :</span> À volonté dans la limite des stocks disponibles.</li>
+            <li><span>🧥 Vestiaire :</span> Gratuit pour les sacs et manteaux.</li>
+            <li><span>⚠️ Règles :</span> Respect des autres et de l’espace, zéro tolérance pour les comportements inappropriés.</li>
+            <li><span>🛏️ Espace repos :</span> Des matelas seront mis à disposition pour se reposer.</li>
+        </ul>
+    </div>
+
+    
+
+    <script>
+        function updateCountdown() {
+            const eventDate = new Date('2024-12-21T23:00:00');
+            const now = new Date(); 
+            const timeLeft = eventDate - now; 
+    
+            if (timeLeft > 0) { 
+                const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000); 
+    
+                if (days > 0) {
+                    // Afficher le compte à rebours normal
+                    document.getElementById('timer').textContent = 
+                        `${days} jour${days > 1 ? 's' : ''}, ${hours} heures, ${minutes} minutes, ${seconds} secondes`;
+                } else {
+                    // Afficher "La soirée, c'est ce soir !" et arrêter le timer
+                    document.getElementById('timer').textContent = "La soirée, c'est ce soir !";
+                    clearInterval(timerInterval); // Arrêter le compte à rebours
+                    launchFireworks(); // Lancer les feux d'artifice
+                }
+    
+            } else {
+                // Lorsque le timer atteint 0
+                document.getElementById('timer').textContent = "Merci à tous c'était incroyable ! V2 incomming ... 🎉"; 
+                launchFireworks(); // Feux d'artifice lorsque le timer atteint 0
+            }
+        }
+    
+        // Fonction pour lancer les feux d'artifice
+        function launchFireworks() {
+            const duration = 10 * 1000; // Durée totale de l'animation
+            const end = Date.now() + duration; 
+    
+            const interval = setInterval(() => { 
+                confetti({
+                    particleCount: 10, // Moins de particules
+                    spread: 90,        // Élargissement moyen
+                    origin: { x: Math.random(), y: Math.random() - 0.2 },
+                    colors: ['#ff0', '#f00', '#0f0', '#00f', '#f0f', '#ff8000']
+                });
+                
+                if (Date.now() > end) { 
+                    clearInterval(interval); // Arrêter les confettis après la durée
+                }
+            }, 300); // Appel toutes les 300 ms pour éviter la surcharge
+        }
+    
+        const timerInterval = setInterval(updateCountdown, 1000); 
+        updateCountdown();
+    </script>
+    
+</body>
+</html>

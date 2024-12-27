@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZIZOU BOILER ROOM</title>
+    <link rel="icon" type="image/x-icon" href="/assets/ico.ico">
+    <style>
+        /* Réinitialisation des styles de base */
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow-y: auto;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Vidéo de fond */
+        #background-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+
+        /* Superposition pour améliorer la lisibilité */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            z-index: 0;
+        }
+
+        /* Conteneur principal */
+        .container {
+            position: relative;
+            z-index: 1;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        /* Div pour l'image */
+        .image-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .image-section img {
+            max-width: 300px; /* Taille de l'image */
+            height: auto;
+        }
+
+        /* Bandeau pour le compte à rebours */
+        .countdown-banner {
+            position: relative;
+            left: 0;
+            width: 100vw; /* Assure qu'il prend toute la largeur de l'écran */
+            background: rgba(0, 0, 0, 0.8); /* Fond légèrement transparent */
+            color: white;
+            text-align: center;
+            padding: 15px 0;
+            font-size: 1.5rem;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            margin-bottom: 20px;
+        }
+
+        /* Section du bouton de préinscription */
+        .registration-section {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .registration-section button {
+            background: #ff5722;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            text-transform: uppercase;
+        }
+
+        .registration-section button:hover {
+            background: #e64a19;
+        }
+
+        /* Div pour la section DJ */
+        .dj-section {
+            text-align: center;
+            color: white;
+            margin-top: 20px;
+        }
+
+        .dj-section h2 {
+            margin-bottom: 20px;
+        }
+
+        .dj-section .dj-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .dj-section .card {
+            position: relative;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 10px;
+            overflow: hidden;
+            width: 150px;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .dj-section .card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .dj-section .card p {
+            margin: 10px 0;
+            font-size: 1rem;
+            color: white;
+        }
+
+        .dj-section .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .dj-section .card .hours {
+                color: #ff5722; /* Couleur différente pour les horaires */
+                font-weight: bold; /* Texte en gras */
+                margin-top: -5px; /* Réduction de l'espace au-dessus */
+                font-size: 0.9rem; /* Taille légèrement réduite */
+                text-transform: uppercase; /* Texte en majuscules */
+            }   
+
+        /* Responsivité */
+        @media (max-width: 768px) {
+            .image-section img {
+                max-width: 100px;
+            }
+
+            .dj-section .dj-container {
+                flex-direction: column;
+            }
+
+            .dj-section .card {
+                width: 100px;
+                margin-bottom: 20px;
+            }
+
+            .dj-section .card img {
+                height: 100px;
+            }
+
+            .dj-section .card .hours {
+                color: #ff5722; /* Couleur différente pour les horaires */
+                font-weight: bold; /* Texte en gras */
+                margin-top: -5px; /* Réduction de l'espace au-dessus */
+                font-size: 0.9rem; /* Taille légèrement réduite */
+                text-transform: uppercase; /* Texte en majuscules */
+            }   
+        }
+    </style>
+</head>
+<body>
+    <!-- Vidéo de fond -->
+    <video id="background-video" autoplay loop muted playsinline>
+        <source src="/assets/video.mp4" type="video/mp4" media="(min-width: 769px)">
+        <source src="/assets/video-mobile.mp4" type="video/mp4" media="(max-width: 768px)">
+        Votre navigateur ne supporte pas les vidéos HTML5.
+    </video>
+
+    <!-- Superposition pour lisibilité -->
+    <div class="overlay"></div>
+
+    <!-- Contenu principal -->
+    <div class="container">
+        <!-- Div pour l'image -->
+        <div class="image-section">
+            <img src="/assets/zizou.png" alt="Image centrale">
+        </div>
+
+        <!-- Bandeau pour le compte à rebours -->
+        <div class="countdown-banner" id="countdown">
+            <span id="timer">Calcul en cours...</span>
+        </div>
+
+        <!-- Bouton de préinscription -->
+        <div class="registration-section">
+            <button onclick="window.open('https://docs.google.com/forms/d/e/1FAIpQLSf6oILlreIvUdFkhyTJesm6sWxKjSz7yjK4sPmgOcHV3O6eIQ/viewform', '_blank')">Préinscription</button>
+        </div>
+
+        <!-- Div pour la section DJs -->
+        <div class="dj-section">
+            <h2>LA LINEUP</h2>
+            <div class="dj-container">
+                <div class="card">
+                    <img src="/assets/guest.png" alt="DJ 1">
+                    <p>A VENIR</p>
+                    <p class="hours">23h00 - 01h00</p>
+                </div>
+                <div class="card">
+                    <div style="display: flex; justify-content: center; align-items: center;">
+                    <img src="/assets/sapo.jpeg" alt="Sapo" style="width: 50%; height: 150px; object-fit: cover; border-right: 1px solid rgba(255, 255, 255, 0.3);">
+                    <img src="/assets/haed.jpeg" alt="Hælixxx" style="width: 50%; height: 150px; object-fit: cover;">
+                </div>
+                    <p>Sapo B2B Hælixxx</p>
+                    <p class="hours">01h00 - 05h00</p>
+                </div>
+                <a href="https://www.instagram.com/_momoset_/" target="_blank" style="text-decoration: none; color: inherit;">
+                    <div class="card">
+                        <img src="/assets/momo.jpg" alt="DJ 3">
+                        <p>MOMOSET</p>
+                        <p class="hours">05h00 - 08h00</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script JavaScript pour le compte à rebours -->
+    <script>
+        function updateCountdown() {
+            const eventDate = new Date('2024-12-21T23:00:00');
+            const now = new Date();
+            const timeLeft = eventDate - now;
+
+            if (timeLeft > 0) {
+                const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+                document.getElementById('timer').textContent = 
+                    `${days} jours, ${hours} heures, ${minutes} minutes, ${seconds} secondes`;
+            } else {
+                document.getElementById('timer').textContent = "La soirée a commencé !";
+            }
+        }
+
+        // Met à jour toutes les secondes
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+    </script>
+</body>
+</html>
